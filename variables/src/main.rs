@@ -22,40 +22,56 @@
 // }
 
 
+use core::panic;
 use std::io;
-
+// 95°F (35°C)
 fn main() {
-    println!("Temperature Converter");
-    println!("Enter '1' to convert Fahrenheit to Celsius");
-    println!("Enter '2' to convert Celsius to Fahrenheit");
+    
 
-    let mut choice = String::new();
-    io::stdin().read_line(&mut choice).expect("Failed to read input");
-    let choice: u32 = choice.trim().parse().expect("Please enter a valid number");
+    let input = String::from("170°F");
+    let result = converter(&input);
+    println!("Converted Temperature: {}°C", result); // Output: 132°C
 
-    match choice {
-        1 => fahrenheit_to_celsius(),
-        2 => celsius_to_fahrenheit(),
-        _ => println!("Invalid choice! Please select either '1' or '2'."),
-    }
 }
 
-fn fahrenheit_to_celsius() {
-    println!("Enter temperature in Fahrenheit:");
-    let mut fahrenheit = String::new();
-    io::stdin().read_line(&mut fahrenheit).expect("Failed to read input");
-    let fahrenheit: f64 = fahrenheit.trim().parse().expect("Please enter a valid number");
 
-    let celsius = (fahrenheit - 32.0) * 5.0 / 9.0;
-    println!("{fahrenheit}°F is equal to {celsius:.2}°C");
-}
+fn converter(temp: &String) -> i32 {
 
-fn celsius_to_fahrenheit() {
-    println!("Enter temperature in Celsius:");
-    let mut celsius = String::new();
-    io::stdin().read_line(&mut celsius).expect("Failed to read input");
-    let celsius: f64 = celsius.trim().parse().expect("Please enter a valid number");
+    let mut res_str = String::new();
+    let mut res = 0;
 
-    let fahrenheit = (celsius * 9.0 / 5.0) + 32.0;
-    println!("{celsius}°C is equal to {fahrenheit:.2}°F");
+    for i in temp.trim().chars() {
+
+        if i.is_digit(10) {
+
+            res_str.push(i);
+
+        } else if i == '°' {
+
+            res = match res_str.parse::<i32>() {
+                Ok(num) => num,
+                Err(_) => panic!("Failed to parse number: {}", res_str),
+            };
+            continue;
+
+        } else if i == 'F' {
+
+            print!("res_str {}, res {}", res, res_str);
+            res = (res - 32) * 5 / 9;
+            break;
+
+        } else if i == 'C' {
+
+            res = (res * 9 / 5) + 32;
+            break;
+
+        } else {
+
+            panic!("Unexpected character: {}", i)
+        }
+
+   }
+    res
+
+
 }

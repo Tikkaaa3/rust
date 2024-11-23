@@ -56,7 +56,7 @@ fn converter(temp: &String) -> i32 {
 
         } else if i == 'F' {
 
-            print!("res_str {}, res {}", res, res_str);
+            print!("res_str {}, res {}", res_str, res);
             res = (res - 32) * 5 / 9;
             break;
 

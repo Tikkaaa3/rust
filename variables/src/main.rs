@@ -23,7 +23,6 @@
 
 
 use core::panic;
-use std::io;
 // 95°F (35°C)
 fn main() {
     
